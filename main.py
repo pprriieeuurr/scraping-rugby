@@ -4,6 +4,7 @@ from pickle import dump, load
 from requests import get
 from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 # Création de fonctions utilitaires pour la gestion des fichiers pickle
 creer_dossier = lambda lien:mkdir(lien) if not path.exists(lien) else None # créer un dossier s'il n'existe pas.
@@ -74,7 +75,7 @@ def charger_saison(division:str, saison:str, dernière_journee:int)->list:
         Une liste contenant les données de la saison pour chaque équipe.
     """
     liste_dico = []
-    for journee in range(1, dernière_journee + 1):
+    for journee in tqdm(range(1, dernière_journee + 1)):
         if not verif_var(f"{division}{saison}{journee}"):
             télécharger_html(f"https://{division}.lnr.fr/classement/{saison}/j{journee}")
             creer_var(f"{division}{saison}{journee}", extraire_classement())
